@@ -30,6 +30,7 @@ export default function Navigation({
   minDate,
   navigationAriaLabel = '',
   navigationLabel,
+  showSeparateMonthLabel,
   next2AriaLabel = '',
   next2Label = '»',
   nextAriaLabel = '',
@@ -38,6 +39,7 @@ export default function Navigation({
   prev2Label = '«',
   prevAriaLabel = '',
   prevLabel = '‹',
+  secoundMonth,
   setActiveStartDate,
   showDoubleView,
   view,
@@ -121,6 +123,26 @@ export default function Navigation({
         : label
     );
   }
+  if (secoundMonth) {
+    return (
+      <div
+        className={className}
+        style={{ display: 'flex' }}
+      >
+        <button
+          aria-label={navigationAriaLabel}
+          className={`${className}__label`}
+          disabled={!drillUpAvailable}
+          onClick={drillUp}
+          style={{ flexGrow: 1 }}
+          type="button"
+        >
+          {renderLabel(nextActiveStartDate)}
+        </button>
+      </div>
+    );
+  }
+
 
   return (
     <div
@@ -156,7 +178,7 @@ export default function Navigation({
         type="button"
       >
         {renderLabel(activeStartDate)}
-        {showDoubleView && (
+        {!showSeparateMonthLabel && showDoubleView && (
           <>
             {' '}
             –
@@ -207,7 +229,9 @@ Navigation.propTypes = {
   prev2Label: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   prevAriaLabel: PropTypes.string,
   prevLabel: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  secoundMonth: PropTypes.bool,
   setActiveStartDate: PropTypes.func.isRequired,
+  showSeparateMonthLabel: PropTypes.bool,
   showDoubleView: PropTypes.bool,
   view: isView.isRequired,
   views: isViews.isRequired,
