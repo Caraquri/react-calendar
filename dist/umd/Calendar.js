@@ -508,7 +508,7 @@ var Calendar = /*#__PURE__*/function (_Component) {
     }
   }, {
     key: "renderNavigation",
-    value: function renderNavigation(secound) {
+    value: function renderNavigation(secound, mode) {
       var showNavigation = this.props.showNavigation;
 
       if (!showNavigation) {
@@ -544,6 +544,7 @@ var Calendar = /*#__PURE__*/function (_Component) {
         locale: locale,
         maxDate: maxDate,
         minDate: minDate,
+        mode: mode,
         navigationAriaLabel: navigationAriaLabel,
         navigationLabel: navigationLabel,
         next2AriaLabel: next2AriaLabel,
@@ -575,11 +576,11 @@ var Calendar = /*#__PURE__*/function (_Component) {
       var valueArray = [].concat(value);
       return _react["default"].createElement("div", {
         className: (0, _mergeClassNames["default"])(baseClassName, selectRange && valueArray.length === 1 && "".concat(baseClassName, "--selectRange"), showDoubleView && "".concat(baseClassName, "--doubleView"), className)
-      }, this.renderNavigation(), _react["default"].createElement("div", {
+      }, this.renderNavigation(false, 'hideMonth'), _react["default"].createElement("div", {
         className: "".concat(baseClassName, "__viewContainer"),
         onBlur: selectRange ? onMouseLeave : null,
         onMouseLeave: selectRange ? onMouseLeave : null
-      }, this.renderContent(), showDoubleView && showSeparateMonthLabel && this.renderNavigation(true), showDoubleView && this.renderContent(true)));
+      }, this.renderNavigation(false, 'monthonly'), this.renderContent(), showDoubleView && showSeparateMonthLabel && this.renderNavigation(true), showDoubleView && this.renderContent(true)));
     }
   }, {
     key: "activeStartDate",
@@ -704,11 +705,11 @@ Calendar.propTypes = {
   prevLabel: _propTypes["default"].node,
   returnValue: _propTypes["default"].oneOf(['start', 'end', 'range']),
   selectRange: _propTypes["default"].bool,
-  showSeparateMonthLabel: _propTypes["default"].bool,
   showDoubleView: _propTypes["default"].bool,
   showFixedNumberOfWeeks: _propTypes["default"].bool,
   showNavigation: _propTypes["default"].bool,
   showNeighboringMonth: _propTypes["default"].bool,
+  showSeparateMonthLabel: _propTypes["default"].bool,
   showWeekNumbers: _propTypes["default"].bool,
   tileClassName: _propTypes["default"].oneOfType([_propTypes["default"].func, _propTypes2.isClassName]),
   tileContent: _propTypes["default"].oneOfType([_propTypes["default"].func, _propTypes["default"].node]),

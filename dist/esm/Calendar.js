@@ -484,7 +484,7 @@ var Calendar = /*#__PURE__*/function (_Component) {
     }
   }, {
     key: "renderNavigation",
-    value: function renderNavigation(secound) {
+    value: function renderNavigation(secound, mode) {
       var showNavigation = this.props.showNavigation;
 
       if (!showNavigation) {
@@ -520,6 +520,7 @@ var Calendar = /*#__PURE__*/function (_Component) {
         locale: locale,
         maxDate: maxDate,
         minDate: minDate,
+        mode: mode,
         navigationAriaLabel: navigationAriaLabel,
         navigationLabel: navigationLabel,
         next2AriaLabel: next2AriaLabel,
@@ -551,11 +552,11 @@ var Calendar = /*#__PURE__*/function (_Component) {
       var valueArray = [].concat(value);
       return React.createElement("div", {
         className: mergeClassNames(baseClassName, selectRange && valueArray.length === 1 && "".concat(baseClassName, "--selectRange"), showDoubleView && "".concat(baseClassName, "--doubleView"), className)
-      }, this.renderNavigation(), React.createElement("div", {
+      }, this.renderNavigation(false, 'hideMonth'), React.createElement("div", {
         className: "".concat(baseClassName, "__viewContainer"),
         onBlur: selectRange ? onMouseLeave : null,
         onMouseLeave: selectRange ? onMouseLeave : null
-      }, this.renderContent(), showDoubleView && showSeparateMonthLabel && this.renderNavigation(true), showDoubleView && this.renderContent(true)));
+      }, this.renderNavigation(false, 'monthonly'), this.renderContent(), showDoubleView && showSeparateMonthLabel && this.renderNavigation(true), showDoubleView && this.renderContent(true)));
     }
   }, {
     key: "activeStartDate",
@@ -677,11 +678,11 @@ Calendar.propTypes = {
   prevLabel: PropTypes.node,
   returnValue: PropTypes.oneOf(['start', 'end', 'range']),
   selectRange: PropTypes.bool,
-  showSeparateMonthLabel: PropTypes.bool,
   showDoubleView: PropTypes.bool,
   showFixedNumberOfWeeks: PropTypes.bool,
   showNavigation: PropTypes.bool,
   showNeighboringMonth: PropTypes.bool,
+  showSeparateMonthLabel: PropTypes.bool,
   showWeekNumbers: PropTypes.bool,
   tileClassName: PropTypes.oneOfType([PropTypes.func, isClassName]),
   tileContent: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),

@@ -459,7 +459,7 @@ export default class Calendar extends Component {
     }
   }
 
-  renderNavigation(secound) {
+  renderNavigation(secound, mode) {
     const { showNavigation } = this.props;
 
     if (!showNavigation) {
@@ -496,6 +496,7 @@ export default class Calendar extends Component {
         locale={locale}
         maxDate={maxDate}
         minDate={minDate}
+        mode={mode}
         navigationAriaLabel={navigationAriaLabel}
         navigationLabel={navigationLabel}
         next2AriaLabel={next2AriaLabel}
@@ -532,12 +533,13 @@ export default class Calendar extends Component {
           className,
         )}
       >
-        {this.renderNavigation()}
+        {this.renderNavigation(false, 'hideMonth')}
         <div
           className={`${baseClassName}__viewContainer`}
           onBlur={selectRange ? onMouseLeave : null}
           onMouseLeave={selectRange ? onMouseLeave : null}
         >
+          {this.renderNavigation(false, 'monthonly')}
           {this.renderContent()}
           {showDoubleView && showSeparateMonthLabel && this.renderNavigation(true)}
 
@@ -601,11 +603,11 @@ Calendar.propTypes = {
   prevLabel: PropTypes.node,
   returnValue: PropTypes.oneOf(['start', 'end', 'range']),
   selectRange: PropTypes.bool,
-  showSeparateMonthLabel: PropTypes.bool,
   showDoubleView: PropTypes.bool,
   showFixedNumberOfWeeks: PropTypes.bool,
   showNavigation: PropTypes.bool,
   showNeighboringMonth: PropTypes.bool,
+  showSeparateMonthLabel: PropTypes.bool,
   showWeekNumbers: PropTypes.bool,
   tileClassName: PropTypes.oneOfType([
     PropTypes.func,

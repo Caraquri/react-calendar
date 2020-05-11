@@ -11,6 +11,8 @@ export default function Navigation(_ref) {
       formatMonthYear = _ref$formatMonthYear === void 0 ? defaultFormatMonthYear : _ref$formatMonthYear,
       _ref$formatYear = _ref.formatYear,
       formatYear = _ref$formatYear === void 0 ? defaultFormatYear : _ref$formatYear,
+      _ref$mode = _ref.mode,
+      mode = _ref$mode === void 0 ? 'normal' : _ref$mode,
       locale = _ref.locale,
       maxDate = _ref.maxDate,
       minDate = _ref.minDate,
@@ -116,7 +118,7 @@ export default function Navigation(_ref) {
       style: {
         display: 'flex'
       }
-    }, React.createElement("button", {
+    }, mode !== 'hideMonth' && React.createElement("button", {
       "aria-label": navigationAriaLabel,
       className: "".concat(className, "__label"),
       disabled: !drillUpAvailable,
@@ -128,12 +130,13 @@ export default function Navigation(_ref) {
     }, renderLabel(nextActiveStartDate)));
   }
 
+  console.log('mode:', mode);
   return React.createElement("div", {
     className: className,
     style: {
       display: 'flex'
     }
-  }, prev2Label !== null && shouldShowPrevNext2Buttons && React.createElement("button", {
+  }, mode !== 'monthonly' && React.createElement(React.Fragment, null, prev2Label !== null && shouldShowPrevNext2Buttons && React.createElement("button", {
     "aria-label": prev2AriaLabel,
     className: "".concat(className, "__arrow ").concat(className, "__prev2-button"),
     disabled: prev2ButtonDisabled,
@@ -145,7 +148,7 @@ export default function Navigation(_ref) {
     disabled: prevButtonDisabled,
     onClick: onClickPrevious,
     type: "button"
-  }, prevLabel), React.createElement("button", {
+  }, prevLabel)), mode !== 'hideMonth' && React.createElement("button", {
     "aria-label": navigationAriaLabel,
     className: "".concat(className, "__label"),
     disabled: !drillUpAvailable,
@@ -154,7 +157,7 @@ export default function Navigation(_ref) {
       flexGrow: 1
     },
     type: "button"
-  }, renderLabel(activeStartDate), !showSeparateMonthLabel && showDoubleView && React.createElement(React.Fragment, null, ' ', "\u2013", ' ', renderLabel(nextActiveStartDate))), React.createElement("button", {
+  }, renderLabel(activeStartDate), !showSeparateMonthLabel && showDoubleView && React.createElement(React.Fragment, null, ' ', "\u2013", ' ', renderLabel(nextActiveStartDate))), mode !== 'monthonly' && React.createElement(React.Fragment, null, React.createElement("button", {
     "aria-label": nextAriaLabel,
     className: "".concat(className, "__arrow ").concat(className, "__next-button"),
     disabled: nextButtonDisabled,
@@ -166,7 +169,7 @@ export default function Navigation(_ref) {
     disabled: next2ButtonDisabled,
     onClick: onClickNext2,
     type: "button"
-  }, next2Label));
+  }, next2Label)));
 }
 Navigation.propTypes = {
   activeStartDate: PropTypes.instanceOf(Date).isRequired,
@@ -176,6 +179,7 @@ Navigation.propTypes = {
   locale: PropTypes.string,
   maxDate: PropTypes.instanceOf(Date),
   minDate: PropTypes.instanceOf(Date),
+  mode: PropTypes.string,
   navigationAriaLabel: PropTypes.string,
   navigationLabel: PropTypes.func,
   next2AriaLabel: PropTypes.string,
@@ -188,8 +192,8 @@ Navigation.propTypes = {
   prevLabel: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   secoundMonth: PropTypes.bool,
   setActiveStartDate: PropTypes.func.isRequired,
-  showSeparateMonthLabel: PropTypes.bool,
   showDoubleView: PropTypes.bool,
+  showSeparateMonthLabel: PropTypes.bool,
   view: isView.isRequired,
   views: isViews.isRequired
 };
