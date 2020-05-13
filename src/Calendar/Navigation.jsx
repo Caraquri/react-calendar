@@ -24,6 +24,7 @@ export default function Navigation({
   drillUp,
   formatMonthYear = defaultFormatMonthYear,
   formatYear = defaultFormatYear,
+  mode = 'normal',
   locale,
   maxDate,
   minDate,
@@ -123,6 +124,8 @@ export default function Navigation({
         className={className}
         style={{ display: 'flex' }}
       >
+        {mode !== 'hideMonth'
+        && (
         <button
           aria-label={navigationAriaLabel}
           className={`${className}__label`}
@@ -133,17 +136,20 @@ export default function Navigation({
         >
           {renderLabel(nextActiveStartDate)}
         </button>
+        )}
       </div>
     );
   }
-
 
   return (
     <div
       className={className}
       style={{ display: 'flex' }}
     >
-      {prev2Label !== null && shouldShowPrevNext2Buttons && (
+      {mode !== 'monthonly'
+      && (
+      <>
+        {prev2Label !== null && shouldShowPrevNext2Buttons && (
         <button
           aria-label={prev2AriaLabel}
           className={`${className}__arrow ${className}__prev2-button`}
@@ -153,54 +159,65 @@ export default function Navigation({
         >
           {prev2Label}
         </button>
+        )}
+        <button
+          aria-label={prevAriaLabel}
+          className={`${className}__arrow ${className}__prev-button`}
+          disabled={prevButtonDisabled}
+          onClick={onClickPrevious}
+          type="button"
+        >
+          {prevLabel}
+        </button>
+      </>
       )}
-      <button
-        aria-label={prevAriaLabel}
-        className={`${className}__arrow ${className}__prev-button`}
-        disabled={prevButtonDisabled}
-        onClick={onClickPrevious}
-        type="button"
-      >
-        {prevLabel}
-      </button>
-      <button
-        aria-label={navigationAriaLabel}
-        className={`${className}__label`}
-        disabled={!drillUpAvailable}
-        onClick={drillUp}
-        style={{ flexGrow: 1 }}
-        type="button"
-      >
-        {renderLabel(activeStartDate)}
-        {!showSeparateMonthLabel && showDoubleView && (
+
+      {mode !== 'hideMonth'
+        && (
+        <button
+          aria-label={navigationAriaLabel}
+          className={`${className}__label`}
+          disabled={!drillUpAvailable}
+          onClick={drillUp}
+          style={{ flexGrow: 1 }}
+          type="button"
+        >
+          {renderLabel(activeStartDate)}
+          {!showSeparateMonthLabel && showDoubleView && (
           <>
             {' '}
             –
             {' '}
             {renderLabel(nextActiveStartDate)}
           </>
-        )}
-      </button>
-      <button
-        aria-label={nextAriaLabel}
-        className={`${className}__arrow ${className}__next-button`}
-        disabled={nextButtonDisabled}
-        onClick={onClickNext}
-        type="button"
-      >
-        {nextLabel}
-      </button>
-      {next2Label !== null && shouldShowPrevNext2Buttons && (
-        <button
-          aria-label={next2AriaLabel}
-          className={`${className}__arrow ${className}__next2-button`}
-          disabled={next2ButtonDisabled}
-          onClick={onClickNext2}
-          type="button"
-        >
-          {next2Label}
+          )}
         </button>
-      )}
+        )}
+      {mode !== 'monthonly'
+        && (
+        <>
+          <button
+            aria-label={nextAriaLabel}
+            className={`${className}__arrow ${className}__next-button`}
+            disabled={nextButtonDisabled}
+            onClick={onClickNext}
+            type="button"
+          >
+            {nextLabel}
+          </button>
+          {next2Label !== null && shouldShowPrevNext2Buttons && (
+          <button
+            aria-label={next2AriaLabel}
+            className={`${className}__arrow ${className}__next2-button`}
+            disabled={next2ButtonDisabled}
+            onClick={onClickNext2}
+            type="button"
+          >
+            {next2Label}
+          </button>
+          )}
+        </>
+        )}
     </div>
   );
 }
@@ -213,6 +230,7 @@ Navigation.propTypes = {
   locale: PropTypes.string,
   maxDate: PropTypes.instanceOf(Date),
   minDate: PropTypes.instanceOf(Date),
+  mode: PropTypes.string,
   navigationAriaLabel: PropTypes.string,
   navigationLabel: PropTypes.func,
   next2AriaLabel: PropTypes.string,
@@ -225,8 +243,8 @@ Navigation.propTypes = {
   prevLabel: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   secoundMonth: PropTypes.bool,
   setActiveStartDate: PropTypes.func.isRequired,
-  showSeparateMonthLabel: PropTypes.bool,
   showDoubleView: PropTypes.bool,
+  showSeparateMonthLabel: PropTypes.bool,
   view: isView.isRequired,
   views: isViews.isRequired,
 };
